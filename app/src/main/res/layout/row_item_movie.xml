@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.erel.movies.model.Movie" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_row_item_movie"
+        android:background="@drawable/bg_row_item_movie">
+
+        <ImageView
+            android:id="@+id/imageMoviePoster"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="W,9:14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:url="@{movie.poster}" />
+
+        <TextView
+            android:id="@+id/textMovieTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_large"
+            android:layout_marginTop="@dimen/space_medium"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{movie.title}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageMoviePoster"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Dark Phoenix" />
+
+        <TextView
+            android:id="@+id/textMovieReleaseDate"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:text="@{movie.releaseDate}"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textMovieTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textMovieTitle"
+            tools:text="07 05 2017" />
+
+        <TextView
+            android:id="@+id/textMovieOverview"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginEnd="@dimen/space_medium"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@{movie.overview}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textMovieReleaseDate"
+            app:layout_constraintTop_toBottomOf="@+id/textMovieReleaseDate"
+            tools:text="Lorem ipsum dolor sit amet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Movie Challenge</string>
+
+    <string name="error_message_unknown">Bir hata oluştu</string>
+    <string name="error_message_connectivity">Bağlantı hatası</string>
+
+    <string name="menu_title_search">Arama</string>
+</resources>

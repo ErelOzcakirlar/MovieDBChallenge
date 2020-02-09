@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_xsmall">2dp</dimen>
+    <dimen name="space_small">4dp</dimen>
+    <dimen name="space_medium">8dp</dimen>
+    <dimen name="space_large">16dp</dimen>
+
+    <dimen name="radius_progress">8dp</dimen>
+    <dimen name="size_progress_background">80dp</dimen>
+    <dimen name="height_row_item_movie">120dp</dimen>
+</resources>
