@@ -1,4 +1,4 @@
-package com.erel.movies.list
+package com.erel.movies.movielist
 
 import android.os.Bundle
 import android.view.Menu
@@ -24,29 +24,20 @@ class MovieListFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         moviesAdapter.itemClickListener = ::navigateToMovieDetail
-        viewModel.getPlayings()
+        viewModel.searchMovies("")
     }
 
     override fun getLayoutResource() = R.layout.fragment_movie_list
 
     override fun initView(view: View) {
-        with(recyclerMovies) {
-            val manager = LinearLayoutManager(requireContext())
-            adapter = moviesAdapter
-            layoutManager = manager
-            addOnScrollListener(object : PaginationScrollListener(manager) {
-                override fun isLastPage() = !viewModel.hasNextPage
-                override fun isLoading() = viewModel.isLoading
-                override fun loadMoreItems() = viewModel.getNextPage()
-            })
-        }
+        recyclerMovies.adapter = moviesAdapter
     }
 
     override fun observeViewModel() {
         super.observeViewModel()
         with(viewModel) {
             moviesLiveData.observe(viewLifecycleOwner, Observer {
-                moviesAdapter.setData(it ?: listOf())
+                moviesAdapter.submitList(it)
             })
         }
     }
@@ -58,11 +49,7 @@ class MovieListFragment : BaseFragment() {
                 override fun onQueryTextSubmit(p0: String?) = true
 
                 override fun onQueryTextChange(query: String): Boolean {
-                    if (query.isEmpty()) {
-                        viewModel.getPlayings()
-                    } else {
-                        viewModel.searchMovies(query)
-                    }
+                    viewModel.searchMovies(query)
                     return true
                 }
             })

@@ -1,9 +1,7 @@
 package com.erel.movies.domain.injection
 
-import com.erel.movies.domain.interactor.AsyncExecutor
-import com.erel.movies.domain.interactor.Executor
-import com.erel.movies.domain.interactor.GetPlayingsInteractor
-import com.erel.movies.domain.interactor.SearchMoviesInteractor
+import com.erel.movies.domain.interactor.*
+import com.erel.movies.domain.model.MovieData
 import org.koin.dsl.module
 
 object DomainModule {

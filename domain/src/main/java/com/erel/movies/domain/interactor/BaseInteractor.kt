@@ -11,12 +11,12 @@ import retrofit2.HttpException
 
 abstract class BaseInteractor<T, R>(private val executor: Executor) {
 
-    fun execute(params: T, successCallback: (Response<R>) -> Unit, failureCallback: (Failure) -> Unit) {
+    fun execute(params: T, successCallback: (R) -> Unit, failureCallback: (Failure) -> Unit) {
         executor.execute(Dispatchers.IO) {
             try {
                 val response = call(params)
                 executor.execute(Dispatchers.Default) {
-                    successCallback(response)
+                    successCallback(response.results!!)
                 }
             } catch (exception: Exception) {
                 executor.execute(Dispatchers.Default) {
@@ -31,7 +31,7 @@ abstract class BaseInteractor<T, R>(private val executor: Executor) {
                                 failureCallback(ServerFailure(message))
                             }
                         }
-                        else -> failureCallback(ConnectionFailure())
+                        else -> failureCallback(Failure(exception.message))
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.erel.movies.list
+package com.erel.movies.movielist
 
 import com.erel.movies.base.BaseMapper
 import com.erel.movies.domain.model.MovieData
