@@ -1,4 +1,4 @@
-package com.erel.movies.detail
+package com.erel.movies.moviedetail
 
 import android.os.Bundle
 import android.os.Parcelable

@@ -1,10 +1,10 @@
-package com.erel.movies.detail
+package com.erel.movies.moviedetail
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.erel.movies.base.BaseActivity
-import com.erel.movies.detail.MovieDetailFragment.Companion.BUNDLE_KEY_MOVIE
+import com.erel.movies.moviedetail.MovieDetailFragment.Companion.BUNDLE_KEY_MOVIE
 import com.erel.movies.model.Movie
 
 class MovieDetailActivity : BaseActivity() {
@@ -16,6 +16,11 @@ class MovieDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     companion object {
