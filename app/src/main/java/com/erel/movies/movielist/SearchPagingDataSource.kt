@@ -1,16 +1,13 @@
 package com.erel.movies.movielist
 
 import androidx.paging.PageKeyedDataSource
-import com.erel.movies.base.BaseMapper
-import com.erel.movies.domain.interactor.BaseInteractor
 import com.erel.movies.domain.interactor.SearchMoviesInteractor
-import com.erel.movies.domain.model.MovieData
 import com.erel.movies.model.Movie
 
 class SearchPagingDataSource(
     private val searchQuery: String,
-    private val movieMapper: BaseMapper<MovieData, Movie>,
-    private val interactor: BaseInteractor<SearchMoviesInteractor.Params, List<MovieData>>
+    private val movieMapper: MovieMapper,
+    private val interactor: SearchMoviesInteractor
 ) : PageKeyedDataSource<Int, Movie>() {
     override fun loadInitial(
         params: LoadInitialParams<Int>,

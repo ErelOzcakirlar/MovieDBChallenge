@@ -1,15 +1,12 @@
 package com.erel.movies.movielist
 
 import androidx.paging.PageKeyedDataSource
-import com.erel.movies.base.BaseMapper
-import com.erel.movies.domain.interactor.BaseInteractor
 import com.erel.movies.domain.interactor.GetPlayingsInteractor
-import com.erel.movies.domain.model.MovieData
 import com.erel.movies.model.Movie
 
 class PlayingsPagingDataSource(
-    private val mapper: BaseMapper<MovieData, Movie>,
-    private val interactor: BaseInteractor<GetPlayingsInteractor.Params, List<MovieData>>
+    private val mapper: MovieMapper,
+    private val interactor: GetPlayingsInteractor
 ) : PageKeyedDataSource<Int, Movie>() {
     override fun loadInitial(
         params: LoadInitialParams<Int>,
