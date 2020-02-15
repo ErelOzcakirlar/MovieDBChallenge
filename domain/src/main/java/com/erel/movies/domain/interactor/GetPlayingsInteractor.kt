@@ -2,11 +2,16 @@ package com.erel.movies.domain.interactor
 
 import com.erel.movies.domain.model.MovieData
 import com.erel.movies.domain.repository.MoviesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlin.coroutines.CoroutineContext
 
-class GetPlayingsInteractor(executor: Executor, private val repository: MoviesRepository) :
-    BaseInteractor<GetPlayingsInteractor.Params, List<MovieData>>(executor) {
+class GetPlayingsInteractor(
+    private val repository: MoviesRepository,
+    asyncContext: CoroutineContext = Dispatchers.IO
+) :
+    BaseInteractor<GetPlayingsInteractor.Params, List<MovieData>>(asyncContext) {
 
-    override suspend fun call(params: Params) = repository.getPlayings(params.page)
+    override fun call(params: Params) = repository.getPlayings(params.page)
 
     data class Params(val page: Int)
 }
