@@ -1,13 +1,16 @@
 package com.erel.movies.domain.interactor
 
-import com.erel.movies.domain.model.ErrorResponse
+import com.erel.movies.domain.model.ServerFailure
+import com.erel.movies.domain.model.ConnectionFailure
 import com.erel.movies.domain.model.Failure
 import com.erel.movies.domain.model.Response
-import com.erel.movies.domain.model.ServerFailure
+import com.erel.movies.domain.model.ErrorResponse
 import com.google.gson.Gson
-import kotlinx.coroutines.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.*
 import retrofit2.HttpException
+import java.net.UnknownHostException
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseInteractor<T, R>(private val asyncContext: CoroutineContext) {
@@ -15,32 +18,34 @@ abstract class BaseInteractor<T, R>(private val asyncContext: CoroutineContext) 
     @ExperimentalCoroutinesApi
     fun execute(
         params: T,
-        successCallback: (R) -> Unit,
-        failureCallback: (Failure) -> Unit
+        callback: (Result<R>) -> Unit
     ) {
-        GlobalScope.launch(Dispatchers.Default) {
+        runBlocking {
             call(params)
                 .flowOn(asyncContext)
-                .mapLatest { it.results!! }
+                .map { Result.success(it.results!!) }
                 .catch { exception ->
                     when (exception) {
                         is HttpException -> {
                             val serverError = exception.response()?.errorBody()?.string()
                             if (serverError.isNullOrEmpty()) {
-                                failureCallback(ServerFailure(exception.message()))
+                                emit(Result.failure(ServerFailure(exception.message())))
                             } else {
-                                val errorResponse =
-                                    Gson().fromJson(serverError, ErrorResponse::class.java)
-                                val message =
-                                    errorResponse.message ?: errorResponse.errors?.getOrNull(0)
-                                failureCallback(ServerFailure(message))
+                                val errorResponse = Gson()
+                                    .fromJson(serverError, ErrorResponse::class.java)
+                                val message = errorResponse.message
+                                    ?: errorResponse.errors?.getOrNull(0)
+                                emit(Result.failure(
+                                    message?.let {
+                                        ServerFailure(message)
+                                    } ?: Failure()))
                             }
                         }
-                        else -> failureCallback(Failure(exception.message))
+                        is UnknownHostException -> emit(Result.failure(ConnectionFailure()))
+                        else -> emit(Result.failure(Failure(exception.message)))
                     }
                 }
-                .first()
-                .let(successCallback)
+                .collect { callback(it) }
         }
     }
 

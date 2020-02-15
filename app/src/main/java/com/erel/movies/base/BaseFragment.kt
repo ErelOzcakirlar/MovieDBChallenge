@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.erel.movies.R
 import com.erel.movies.domain.model.ConnectionFailure
+import com.erel.movies.domain.model.Failure
 import com.erel.movies.domain.model.ServerFailure
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import com.google.android.material.snackbar.Snackbar
@@ -45,17 +46,16 @@ abstract class BaseFragment : Fragment() {
         })
         errorLiveData.observe(viewLifecycleOwner, Observer {
             when (it) {
-                is ServerFailure -> showSnackbar(
-                    it.message ?: getString(R.string.error_message_unknown)
-                )
+                is ServerFailure -> showSnackbar(it.message)
                 is ConnectionFailure -> showSnackbar(getString(R.string.error_message_connectivity))
+                else -> showSnackbar(it.message ?: getString(R.string.error_message_unknown))
             }
         })
     }
 
     private fun showSnackbar(message: String) {
         view?.let {
-            Snackbar.make(it, message, LENGTH_SHORT)
+            Snackbar.make(it, message, LENGTH_SHORT).show()
         }
     }
 }

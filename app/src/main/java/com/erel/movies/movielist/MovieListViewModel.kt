@@ -28,8 +28,14 @@ class MovieListViewModel(
             build()
         }
         moviesLiveData = Transformations.switchMap(searchQueryLiveData) { query ->
-            val factory =
-                MovieDataSourceFactory(query, mapper, searchMoviesInteractor, getPlayingsInteractor)
+            val factory = MovieDataSourceFactory(
+                query,
+                mapper,
+                searchMoviesInteractor,
+                getPlayingsInteractor,
+                failureCallback = {
+                    errorLiveData.postValue(it)
+                })
             LivePagedListBuilder<Int, Movie>(factory, config).build()
         }
     }

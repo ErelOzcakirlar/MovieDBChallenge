@@ -7,7 +7,7 @@ import com.erel.movies.util.SingleLiveEvent
 
 open class BaseViewModel : ViewModel() {
     val progressLiveData = MutableLiveData<Boolean>()
-    val errorLiveData = SingleLiveEvent<Failure>()
+    val errorLiveData = SingleLiveEvent<Throwable>()
 
     fun handleFailure(failure: Failure) {
         progressLiveData.value = false
