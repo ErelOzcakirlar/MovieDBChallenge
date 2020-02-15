@@ -1,13 +1,15 @@
 package com.erel.movies.movielist
 
 import androidx.paging.PageKeyedDataSource
+import com.erel.movies.domain.interactor.BaseInteractor
 import com.erel.movies.domain.interactor.GetPlayingsInteractor
+import com.erel.movies.domain.model.MovieData
 import com.erel.movies.model.Movie
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class PlayingsPagingDataSource(
     private val mapper: MovieMapper,
-    private val interactor: GetPlayingsInteractor,
+    private val interactor: BaseInteractor<GetPlayingsInteractor.Params, List<MovieData>>,
     private val failureCallback: (Throwable) -> Unit
 ) : PageKeyedDataSource<Int, Movie>() {
 

@@ -1,15 +1,16 @@
 package com.erel.movies.movielist
 
 import androidx.paging.PageKeyedDataSource
+import com.erel.movies.domain.interactor.BaseInteractor
 import com.erel.movies.domain.interactor.SearchMoviesInteractor
-import com.erel.movies.domain.model.Failure
+import com.erel.movies.domain.model.MovieData
 import com.erel.movies.model.Movie
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class SearchPagingDataSource(
     private val searchQuery: String,
     private val movieMapper: MovieMapper,
-    private val interactor: SearchMoviesInteractor,
+    private val interactor: BaseInteractor<SearchMoviesInteractor.Params, List<MovieData>>,
     private val failureCallback: (Throwable) -> Unit
 ) : PageKeyedDataSource<Int, Movie>() {
 

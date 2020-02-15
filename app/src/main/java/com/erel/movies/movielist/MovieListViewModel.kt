@@ -6,13 +6,15 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.erel.movies.base.BaseViewModel
+import com.erel.movies.domain.interactor.BaseInteractor
 import com.erel.movies.domain.interactor.GetPlayingsInteractor
 import com.erel.movies.domain.interactor.SearchMoviesInteractor
+import com.erel.movies.domain.model.MovieData
 import com.erel.movies.model.Movie
 
 class MovieListViewModel(
-    private val getPlayingsInteractor: GetPlayingsInteractor,
-    private val searchMoviesInteractor: SearchMoviesInteractor,
+    private val getPlayingsInteractor: BaseInteractor<GetPlayingsInteractor.Params, List<MovieData>>,
+    private val searchMoviesInteractor: BaseInteractor<SearchMoviesInteractor.Params, List<MovieData>>,
     private val mapper: MovieMapper
 ) : BaseViewModel() {
 
